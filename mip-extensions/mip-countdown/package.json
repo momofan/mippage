@@ -1,0 +1,14 @@
+{
+    "name": "mip-countdown",
+    "version": "1.0.0",
+    "description": "用于页面倒计时的功能实现",
+    "contributors": [
+        {
+            "name": "lilangbo",
+            "email": "lilangbo@baidu.com"
+        }
+    ],
+    "engines": {
+        "mip": ">=1.1.0"
+    }
+}
