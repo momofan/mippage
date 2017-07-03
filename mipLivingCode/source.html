@@ -10,6 +10,8 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <meta name="keywords" content="高考">
     <meta name="description" content="高考">
+    <link rel="canonical" href="https://momofan.github.io/mippage/mipLivingCode/source.html">
+  <link rel="stylesheet" type="text/css" href="https://mipcache.bdstatic.com/static/v1/mip.css">
 <style>
 body{ 
   font: normal 13px/20px Arial, Helvetica, sans-serif; word-wrap:break-word;
@@ -134,8 +136,29 @@ body{
   display: inline-block;
 }
 </style>
+<script async src="https://mipcache.bdstatic.com/static/v1/mip.js"></script>
+<script async src="https://momofan.github.io/mippage/mip-extensions/mip-countdown/mip-countdown-out.js"></script>
 </head>
 <body>
+<mip-countdown layout="responsive" width="300" height="100" endTime="1499247000" startTime="">
+    <div class="mip-countdown-not-start">not start content</div>
+    <div class="mip-countdown-running">
+      <div id="mip-countdown-tiles">
+      </div>
+      <div class="labels">
+        <li>Days</li>
+        <li>Hours</li>
+        <li>Mins</li>
+        <li>Secs</li>
+      </div>
+    </div>
+    <div class="mip-countdown-end">
+      <p>
+          《鬼谷子》，又名《捭阖策》。据传是由鬼谷先生后学者根据先生言论整理而成。该书侧重于权谋策略及言谈辩论技巧。《鬼谷子》共有十四篇，其中第十三、十四篇已失传。
+      　　《鬼谷子》一书，从主要内容来看，是针对谈判游说活动而言的，但是由于其中涉及到大量的谋略问题，与军事问题触类旁通，也被称为兵书。书以功利主义思想，认为一切合理手段都可以运用。它讲述了作为弱者的一无所有的纵横家们，运用谋略口才如何进行游说，进而控制作为强者，握有一国政治、经济、军事大权的诸侯国君主。
+      </p>
+    </div>
+</mip-countdown>
 <div id="countdown">
   <div id='tiles'></div>
   <div class="labels">
@@ -146,43 +169,7 @@ body{
   </div>
 </div>
 <img src="http://pic1.win4000.com/cover/20160919/20160919105601_92426.png" />
+
 <img src="http://pic1.win4000.com/wallpaper/7/59548ace980a0.jpg" />
-<script>
-  (function() {
-
-  var target_date = new Date().getTime() + (1000*3600*48); // set the countdown date
-  var days, hours, minutes, seconds; // variables for time units
-
-  var countdown = document.getElementById("tiles"); // get tag element
-
-  getCountdown();
-
-  setInterval(function () { getCountdown(); }, 1000);
-
-  function getCountdown(){
-
-    // find the amount of "seconds" between now and target
-    var current_date = new Date().getTime();
-    var seconds_left = (target_date - current_date) / 1000;
-
-    days = pad( parseInt(seconds_left / 86400) );
-    seconds_left = seconds_left % 86400;
-     
-    hours = pad( parseInt(seconds_left / 3600) );
-    seconds_left = seconds_left % 3600;
-      
-    minutes = pad( parseInt(seconds_left / 60) );
-    seconds = pad( parseInt( seconds_left % 60 ) );
-
-    // format countdown string + set tag value
-    countdown.innerHTML = "<span>" + days + "</span><span>" + hours + "</span><span>" + minutes + "</span><span>" + seconds + "</span>"; 
-  }
-
-  function pad(n) {
-    return (n < 10 ? '0' : '') + n;
-  }
-
-})();
-</script>
 </body>
 </html>
