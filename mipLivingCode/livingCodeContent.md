@@ -1,4 +1,4 @@
-# living code 流程
+# live coding 流程
 
 ## 开发环境搭建
 [mip-cli](https://github.com/mipengine/mip-cli)
