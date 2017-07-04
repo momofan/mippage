@@ -24,7 +24,7 @@ define(function (require) {
     	}
     	// 倒计时已结束
     	else if (endTime < currentDate && endTime > 0) {
-    		var end = element.querySelector('.mip-countdown-end')[0];
+    		var end = element.querySelector('.mip-countdown-end');
     		if (end) {
     			util.css(end, 'display', 'block');
     		}
@@ -64,6 +64,11 @@ define(function (require) {
 				var seconds_left = (endTime - now) / 1000;
 				if (seconds_left < 0) {
 					clearInterval(setInt);
+                    var end = element.querySelector('.mip-countdown-end');
+                    if (end) {
+                        util.css(end, 'display', 'block');
+                    }
+                    util.css(running, 'display', 'none');
 					return;
 				}
 
