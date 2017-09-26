@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html mip>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+    <meta content="noindex" name="robots">
+    <link rel="canonical" href="https://mipcache.bdstatic.com/static/mip404.html">
+</head>
+<body>
+<script src="https://mipcache.bdstatic.com/static/v1/mip.js"></script>
+<script>
+(function () {
+    var util = require('util');
+    var href = util.parseCacheUrl(location.href);
+    var from = MIP.hash.get('from') || '';
+    var defaultPage = 'https://m.baidu.com/error.jsp';
+    var redirectUrl = decodeURIComponent(getParams('redirect')) || defaultPage;
+    // 跳转落地页 url 逻辑
+    if (from && href !== location.href) {
+        // 非 mip cache
+        redirectUrl = href;
+    }
+    else {
+        redirectUrl = defaultPage;
+    }
+    function getParams(key) {
+        var url = location.search.replace(/^\?/,'').split('&');
+        var paramsObj = {};
+        for(var i = 0, iLen = url.length; i < iLen; i++){
+            var param = url[i].split('=');
+            paramsObj[param[0]] = param[1];
+        }
+        if(key){
+            return paramsObj[key] || '';
+        }
+        return paramsObj;
+    }
+    if (window.parent !== window) {
+        top.location.href = redirectUrl;
+    }
+    else {
+        window.location.href = redirectUrl;
+    }
+})();
+</script>
+</body>
+</html>
