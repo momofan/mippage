@@ -16,12 +16,14 @@
     var defaultPage = 'https://m.baidu.com/error.jsp';
     var redirectUrl = decodeURIComponent(getParams('redirect')) || defaultPage;
     // 跳转落地页 url 逻辑
-    if (from && href !== location.href) {
-        // 非 mip cache
-        redirectUrl = href;
-    }
-    else {
-        redirectUrl = defaultPage;
+    if (!redirectUrl) {
+        if (from && href !== location.href) {
+            // 非 mip cache
+            redirectUrl = href;
+        }
+        else {
+            redirectUrl = defaultPage;
+        }
     }
     function getParams(key) {
         var url = location.search.replace(/^\?/,'').split('&');
