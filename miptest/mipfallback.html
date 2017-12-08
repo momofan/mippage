@@ -4,43 +4,81 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
     <meta content="noindex" name="robots">
-    <link rel="canonical" href="https://mipcache.bdstatic.com/static/mip404.html">
 </head>
 <body>
-<script src="https://mipcache.bdstatic.com/static/v1/mip.js"></script>
 <script>
 (function () {
-    var util = require('util');
-    var href = util.parseCacheUrl(location.href);
-    var from = MIP.hash.get('from') || '';
+    var href = parseCacheUrl(location.href);
+    var MIP = window.MIP || {};
+    var from = getHash('from') || '';
     var defaultPage = 'https://m.baidu.com/error.jsp';
-    var redirectUrl = decodeURIComponent(getParams('redirect')) || defaultPage;
     // 跳转落地页 url 逻辑
-    if (!redirectUrl) {
-        if (from && href !== location.href) {
-            redirectUrl = href;
-        }
-        else {
-            redirectUrl = defaultPage;
-        }
-    }
-    function getParams(key) {
-        var url = location.search.replace(/^\?/,'').split('&');
-        var paramsObj = {};
-        for(var i = 0, iLen = url.length; i < iLen; i++){
-            var param = url[i].split('=');
-            paramsObj[param[0]] = param[1];
-        }
-        if(key){
-            return paramsObj[key] || '';
-        }
-        return paramsObj;
-    }
-    if (window.parent !== window) {
-        top.location.href = redirectUrl;
+    if (from && href !== location.href) {
+        redirectUrl = href.split('#')[0];
     }
     else {
-        window.location.href = redirectUrl;
+        redirectUrl = defaultPage;
+    }
+    if (window.parent !== window) {
+        top.location.replace(redirectUrl);
+    }
+    else {
+        window.location.replace(redirectUrl);
+    }
+    function parseCacheUrl(url) {
+        if (!url) {
+            return url;
+        }
+        if (!(url.indexOf('http') === 0
+            || url.indexOf('/') === 0)) {
+            return url;
+        }
+        var reg = new RegExp('^(http[s]:)?(\/\/([^\/]+))?\/[ic](\/s)?\/(.*)$', 'g');
+        var result = reg.exec(url);
+        if (!result) {
+            return url;
+        }
+        var uri = result[4] ? 'https:' : 'http:';
+        uri += result[5] ? ('//' + result[5]) : '';
+        var urlRegExp = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+        if (!urlRegExp.test(uri)) {
+            return url;
+        }
+        return uri;
+    }
+    function _getHashObj(originalHash) {
+        var hashObj = {};
+        if (!originalHash) {
+            return hashObj;
+        }
+        var hashString = originalHash.slice(originalHash.indexOf('#') + 1);
+        var hashs = hashString.split('&');
+        for (var key in hashs) {
+            if (hashs.hasOwnProperty(key)) {
+                var item = hashs[key];
+                var hk = item;
+                var hv = '';
+                var idx = item.indexOf('=');
+                // key invalid
+                if (idx === 0) {
+                    continue;
+                }
+                // key valid
+                if (idx !== -1) {
+                    hk = item.substring(0, idx);
+                    hv = item.slice(idx + 1);
+                }
+                hashObj[hk] = {
+                    value: hv,
+                    sep: idx !== -1 ? '=' : ''
+                };
+            }
+        }
+        return hashObj;
+    }
+    function getHash(key) {
+        var hv = _getHashObj(window.location.hash);
+        return hv && hv.value ? hv.value : '';
     }
 })();
 </script>
