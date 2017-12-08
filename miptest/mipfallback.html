@@ -8,7 +8,7 @@
 <body>
 <script>
 (function () {
-    var href = parseCacheUrl(location.href);
+    var href = 'test.abc.com' || parseCacheUrl(location.href);
     var MIP = window.MIP || {};
     var from = getHash('from') || '';
     var defaultPage = 'https://m.baidu.com/error.jsp';
