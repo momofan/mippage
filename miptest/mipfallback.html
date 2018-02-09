@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html mip>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+    <meta content="noindex" name="robots">
+</head>
+<body>
+<script>
+(function () {
+    var href = 'test.abc.com' || parseCacheUrl(location.href);
+    var from = getHash('from') || '';
+    var defaultPage = 'https://m.baidu.com/error.jsp';
+    // 跳转落地页 url 逻辑
+    if (from && href !== location.href) {
+        redirectUrl = href.split('#')[0];
+    }
+    else {
+        redirectUrl = defaultPage;
+    }
+    if (window.parent !== window) {
+        top.location.replace(redirectUrl);
+    }
+    else {
+        window.location.replace(redirectUrl);
+    }
+    function parseCacheUrl(url) {
+        if (!url) {
+            return url;
+        }
+        if (!(url.indexOf('http') === 0
+            || url.indexOf('/') === 0)) {
+            return url;
+        }
+        var reg = new RegExp('^(http[s]:)?(\/\/([^\/]+))?\/[ic](\/s)?\/(.*)$', 'g');
+        var result = reg.exec(url);
+        if (!result) {
+            return url;
+        }
+        var uri = result[4] ? 'https:' : 'http:';
+        uri += result[5] ? ('//' + result[5]) : '';
+        var urlRegExp = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+        if (!urlRegExp.test(uri)) {
+            return url;
+        }
+        return uri;
+    }
+    function _getHashObj(originalHash) {
+        var hashObj = {};
+        if (!originalHash) {
+            return hashObj;
+        }
+        var hashString = originalHash.slice(originalHash.indexOf('#') + 1);
+        var hashs = hashString.split('&');
+        for (var key in hashs) {
+            if (hashs.hasOwnProperty(key)) {
+                var item = hashs[key];
+                var hk = item;
+                var hv = '';
+                var idx = item.indexOf('=');
+                // key invalid
+                if (idx === 0) {
+                    continue;
+                }
+                // key valid
+                if (idx !== -1) {
+                    hk = item.substring(0, idx);
+                    hv = item.slice(idx + 1);
+                }
+                hashObj[hk] = {
+                    value: hv,
+                    sep: idx !== -1 ? '=' : ''
+                };
+            }
+        }
+        return hashObj;
+    }
+    function getHash(key) {
+        var hashs = _getHashObj(window.location.hash);
+        var hv = hashs && hashs[key] || '';
+        return hv && hv.value ? hv.value : '';
+    }
+})();
+</script>
+</body>
+</html>
